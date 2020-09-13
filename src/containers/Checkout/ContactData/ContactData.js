@@ -20,7 +20,7 @@ class ContactData extends Component {
         this.setState({loading : true})
         //Add data to database
         const order = {
-            ingredients: this.state.ingredients,
+            ingredients: this.props.ingredients,
             price: this.props.price,
             customer: {
                 name: "Nitish Bala",
