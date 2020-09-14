@@ -83,18 +83,18 @@ class ContactData extends Component {
                 elementType: "select",
                 elementConfig: {
                     options: [{value:"fastest", displayValue: "Fastest"},
-                            {value:"Cheapest", displayValue: "Cheapest"}]
+                            {value:"cheapest", displayValue: "Cheapest"}]
                     
                 },
-                value: "",
+                value: "fastest",
+                validation: {},
                 label: "Delivery",
                 valid: true,
                 touched: false
             },
            
         },
-        ingredients: this.props.ingredients,
-        price: this.props.price,
+        formIsValid: false,
         loading: false
     }
 
@@ -154,7 +154,13 @@ class ContactData extends Component {
         formElementCopy.touched = true;
 
         orderFormCopy[inputIdentifier] = formElementCopy;
-        this.setState({orderForm : orderFormCopy});
+
+        let formIsValid = true;
+        for (let key in orderFormCopy) {
+            formIsValid = formIsValid && orderFormCopy[key].valid;
+        }
+
+        this.setState({orderForm : orderFormCopy, formIsValid: formIsValid});
     }
 
     render() {
@@ -178,7 +184,7 @@ class ContactData extends Component {
         let form = (
             <form onSubmit={this.orderHandler}>
                 {inputs}
-                <Button btnType="Success">ORDER</Button>
+                <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
             </form>
         );
 
