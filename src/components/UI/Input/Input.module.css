@@ -1,0 +1,30 @@
+
+
+.Input {
+    width : 70%;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.Label {
+    text-align: left !important;
+    width: 100px;
+    font-weight : bold;
+    display: block;
+}
+
+.InputElement {
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    width: 80%;
+    border-radius: 5px;
+}
+
+.InputElement:focus {
+    outline: none;
+    background-color: #ccc;
+}

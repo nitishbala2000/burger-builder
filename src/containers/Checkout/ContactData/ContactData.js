@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./ContactData.module.css";
-import Spinner from "../../../components/Spinner/Spinner";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 import axios from "../../../axios-orders";
+import Input from "../../../components/UI/Input/Input";
 
 class ContactData extends Component {
     state = {
@@ -48,10 +49,10 @@ class ContactData extends Component {
     render() {
         let form = (
             <form>
-                <input type="text" name="name" placeholder="Your name"/>
-                <input type="email" name="email" placeholder="Your name"/>
-                <input type="text" name="street" placeholder="Street"/>
-                <input type="text" name="postal" placeholder="Postal Code"/>
+                <Input label="Name" inputtype="input" type="text" name="name" placeholder="Your name"/>
+                <Input label="Email" inputtype="input" type="email" name="email" placeholder="Your name"/>
+                <Input label="Street" inputtype="input" type="text" name="street" placeholder="Street"/>
+                <Input label="Post Code" inputtype="input" type="text" name="postal" placeholder="Postal Code"/>
                 <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
             </form>
         );
@@ -62,13 +63,7 @@ class ContactData extends Component {
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your contact data</h4>
-                <form>
-                    <input type="text" name="name" placeholder="Your name"/>
-                    <input type="email" name="email" placeholder="Your name"/>
-                    <input type="text" name="street" placeholder="Street"/>
-                    <input type="text" name="postal" placeholder="Postal Code"/>
-                    <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
-                </form>
+                {form}
             </div>
         );
     }

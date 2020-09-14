@@ -8,22 +8,11 @@
     box-sizing: border-box;
 }
 
-.ContactData input {
-    margin : auto;
-    display : block;
-    width : 50%;
 
-    margin-top : 5px;
-}
 
 @media (min-width : 600px) {
     .ContactData {
-
         width: 500px;
     }
     
-}
-
-.ContactData form {
-    text-align: center;
 }
