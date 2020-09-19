@@ -9,14 +9,10 @@ const INGREDIENT_PRICES = {
 
 const initialState = {
   
-    ingredients: {
-        cheese: 0,
-        meat: 0,
-        salad: 0,
-        bacon: 0
-    },
+    ingredients: null,
     totalPrice: 4,
-    purchasable: false
+    purchasable: false,
+    error: false
     
 }
 
@@ -81,6 +77,23 @@ const reducer = (state = initialState, action) => {
             return { ingredients: newIngredients, totalPrice: newPrice, purchasable: newPurchasable };
 
         }
+        case actionTypes.SET_INGREDIENTS: {
+            return {
+                ...state,
+                ingredients: action.ingredients,
+                purchasable: getPurchaseState(action.ingredients),
+                error: false
+            }
+
+        }
+
+        case actionTypes.FETCH_INGREDIENTS_FAILED: {
+            return {
+                ...state,
+                error: true
+            }
+        }
+
     }
     return state;
 }
