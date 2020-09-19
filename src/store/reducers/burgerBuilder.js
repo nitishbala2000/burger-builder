@@ -10,7 +10,7 @@ const INGREDIENT_PRICES = {
 const initialState = {
   
     ingredients: null,
-    totalPrice: 4,
+    totalPrice: null,
     purchasable: false,
     error: false
     
@@ -82,6 +82,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ingredients: action.ingredients,
                 purchasable: getPurchaseState(action.ingredients),
+                totalPrice: 4,
                 error: false
             }
 
