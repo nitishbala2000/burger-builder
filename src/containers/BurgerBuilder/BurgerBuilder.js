@@ -6,6 +6,8 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import * as burgerBuilderActions from "../../store/actions/index";
+
 import { connect } from "react-redux";
 
 const INGREDIENT_PRICES = {
@@ -38,15 +40,6 @@ class BurgerBuilder extends Component {
     purchaseContinueHandler = () => {
 
         this.setState({ loading: true });
-
-        // const queryParams = [];
-        // for (let i in this.state.ingredients) {
-        //     queryParams.push(i + "=" + this.state.ingredients[i]);
-        // }
-        // queryParams.push("price=" + this.state.totalPrice);
-        // const queryString = queryParams.join("&");
-        // this.props.history.push("/checkout?" + queryString);
-
 
         //Don't need query params since can be found from redux
         this.props.history.push("/checkout");
@@ -114,8 +107,8 @@ const mapStateToProps = state => {
 
 const mapDipatchToProps = dispatch => {
     return {
-        addIngredient : (ingredientType) => dispatch({type: "addIngredient", ingredientType: ingredientType}),
-        removeIngredient : (ingredientType) => dispatch({type: "removeIngredient", ingredientType: ingredientType})
+        addIngredient : (ingredientType) => dispatch(burgerBuilderActions.addIngredient(ingredientType)),
+        removeIngredient : (ingredientType) => dispatch(burgerBuilderActions.removeIngredient(ingredientType))
 
     }
 }

@@ -108,7 +108,7 @@ class ContactData extends Component {
             customerData[key] = this.state.orderForm[key].value;
         }
 
-        //Add data to database
+      
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,

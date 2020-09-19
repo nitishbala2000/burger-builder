@@ -1,3 +1,5 @@
+import * as actionTypes from "../actions/actionTypes";
+
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
@@ -34,7 +36,7 @@ const getPurchaseState = (ingredients) => {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case "addIngredient" : {
+        case actionTypes.ADD_INGREDIENT : {
             const type = action.ingredientType;
 
             //Increment ingredient count
@@ -44,7 +46,7 @@ const reducer = (state = initialState, action) => {
             newIngredients[type] = updatedCounted;
 
             //Set purchasable value
-            const newPurchasable = getPurchaseState(state.ingredients);
+            const newPurchasable = getPurchaseState(newIngredients);
             
             //Increase price
             const priceAddition = INGREDIENT_PRICES[type];
@@ -54,7 +56,7 @@ const reducer = (state = initialState, action) => {
             return { ingredients: newIngredients, totalPrice: newPrice, purchasable: newPurchasable };
         }
 
-        case "removeIngredient": {
+        case actionTypes.REMOVE_INGREDIENT: {
             const type = action.ingredientType;
 
             //Increment ingredient count
@@ -69,7 +71,7 @@ const reducer = (state = initialState, action) => {
             newIngredients[type] = updatedCounted;
 
             //Set purchasable value
-            const newPurchasable = getPurchaseState(state.ingredients);
+            const newPurchasable = getPurchaseState(newIngredients);
             
             //Decrease price
             const priceDeduction = INGREDIENT_PRICES[type];
