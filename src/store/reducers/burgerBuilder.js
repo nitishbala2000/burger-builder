@@ -12,7 +12,8 @@ const initialState = {
     ingredients: null,
     totalPrice: null,
     purchasable: false,
-    error: false
+    error: false,
+    building: false
     
 }
 
@@ -49,7 +50,13 @@ const reducer = (state = initialState, action) => {
             const oldPrice = state.totalPrice;
             const newPrice = oldPrice + priceAddition;
     
-            return { ingredients: newIngredients, totalPrice: newPrice, purchasable: newPurchasable };
+            return { 
+                ...state,
+                ingredients: newIngredients, 
+                totalPrice: newPrice, 
+                purchasable: newPurchasable, 
+                building: true 
+            };
         }
 
         case actionTypes.REMOVE_INGREDIENT: {
@@ -74,7 +81,13 @@ const reducer = (state = initialState, action) => {
             const oldPrice = state.totalPrice;
             const newPrice = oldPrice - priceDeduction;
 
-            return { ingredients: newIngredients, totalPrice: newPrice, purchasable: newPurchasable };
+            return { 
+                ...state,
+                ingredients: newIngredients, 
+                totalPrice: newPrice, 
+                purchasable: newPurchasable,
+                building: true
+            };
 
         }
         case actionTypes.SET_INGREDIENTS: {
@@ -83,7 +96,8 @@ const reducer = (state = initialState, action) => {
                 ingredients: action.ingredients,
                 purchasable: getPurchaseState(action.ingredients),
                 totalPrice: 4,
-                error: false
+                error: false,
+                building: false
             }
 
         }

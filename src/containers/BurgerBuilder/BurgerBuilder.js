@@ -6,7 +6,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as burgerBuilderActions from "../../store/actions/index";
+import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 
 class BurgerBuilder extends Component {
@@ -19,13 +19,22 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        this.props.initIngredients();
+        if (this.props.ingredients == null) {
+            this.props.initIngredients();
+        }
+       
     }
 
   
 
     purchaseHandler = () => {
-        this.setState({ purchasing: true });
+        if (this.props.isAuthenticated) {
+            //Open up the modal
+            this.setState({ purchasing: true });
+        } else {
+            this.props.history.push("/auth");
+        }
+    
     }
 
 
@@ -68,6 +77,7 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         price={this.props.totalPrice}
                         purchasable={this.props.purchasable}
+                        isAuth={this.props.isAuthenticated}
                         ordered={this.purchaseHandler}></BuildControls>
                 </Fragment>
             );
@@ -98,15 +108,16 @@ const mapStateToProps = state => {
         ingredients : state.burgerBuilder.ingredients,
         totalPrice : state.burgerBuilder.totalPrice,
         purchasable: state.burgerBuilder.purchasable,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token != null
     }
 }
 
 const mapDipatchToProps = dispatch => {
     return {
-        addIngredient : (ingredientType) => dispatch(burgerBuilderActions.addIngredient(ingredientType)),
-        removeIngredient : (ingredientType) => dispatch(burgerBuilderActions.removeIngredient(ingredientType)),
-        initIngredients: () => dispatch(burgerBuilderActions.initIngredients())
+        addIngredient : (ingredientType) => dispatch(actions.addIngredient(ingredientType)),
+        removeIngredient : (ingredientType) => dispatch(actions.removeIngredient(ingredientType)),
+        initIngredients: () => dispatch(actions.initIngredients()),
     }
 }
 
