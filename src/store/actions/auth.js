@@ -7,9 +7,7 @@ import axios from "axios";
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
-            dispatch({
-                type: actionTypes.AUTH_LOGOUT,
-            })
+            dispatch(logout());
         }, expirationTime * 1000);
     }
 }
@@ -33,7 +31,14 @@ export const auth = (email, password, isSignUp) => {
         
         axios.post(url, authData)
         .then(response => {
-            console.log(response);
+
+            const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+            
+            //Successful login
+            localStorage.setItem("token", response.data.idToken );
+            localStorage.setItem("expirationDate", expirationDate);
+            localStorage.setItem("userId", response.data.localId);
+
             dispatch({
                 type: actionTypes.AUTH_SUCCESS,
                 userId: response.data.localId,
@@ -53,5 +58,35 @@ export const auth = (email, password, isSignUp) => {
 }
 
 export const logout = () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
+    localStorage.removeItem("userId");
     return {type: actionTypes.AUTH_LOGOUT};
+}
+
+
+export const authCheckState = () => {
+    return dispatch => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            dispatch(logout());
+        } else {
+            const expirationDate = new Date(localStorage.getItem("expirationDate"));
+            if (new Date() < expirationDate) {
+
+                //localStorage token not yet expired
+                dispatch({
+                    type: actionTypes.AUTH_SUCCESS,
+                    userId: localStorage.getItem("userId"),
+                    token: localStorage.getItem("token")
+                });
+                
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+            } else {
+                //localStorage token expired
+                dispatch(logout())
+            }
+        }
+    }
 }
