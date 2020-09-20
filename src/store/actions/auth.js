@@ -1,27 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
-export const authStart = () => {
-    return {
-        type: actionTypes.AUTH_START
-    }
-}
-
-
-export const authSuccess = (authData) => {
-    return {
-        type: actionTypes.AUTH_SUCCESS,
-        authData: authData
-    }
-}
-
-export const authFail = (error) => {
-    return {
-        type: actionTypes.AUTH_FAIL,
-        error: error
-    }
-}
-
 export const auth = (email, password, isSignUp) => {
     return dispatch => {
         const authData = {
@@ -36,15 +15,24 @@ export const auth = (email, password, isSignUp) => {
         } else {
             url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCG8ZzzSkAEPaoqDAX-5WP43urWkPfDuL8"
         }
+
+        dispatch({type: actionTypes.AUTH_START})
         
         axios.post(url, authData)
         .then(response => {
             console.log(response);
-            dispatch(authSuccess(response))
+            dispatch({
+                type: actionTypes.AUTH_SUCCESS,
+                userId: response.data.localId,
+                token: response.data.idToken
+            })
         })
-        .catch(err => {
-            console.log(err);
-            dispatch(authFail(err));
+        .catch(error => {
+            console.log(error);
+            dispatch({
+                type: actionTypes.AUTH_FAIL,
+                error: error.response.data.error
+            })
         })
     }
 }
