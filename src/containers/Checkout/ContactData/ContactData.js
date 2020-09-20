@@ -116,7 +116,7 @@ class ContactData extends Component {
         };
 
         // //Adds a node under "orders" in the database
-        axios.post("/orders.json", order)
+        axios.post("/orders.json?auth=" + this.props.token, order)
             .then((response) => {
                 this.setState({ loading: false });
                 this.props.history.push("/");
@@ -205,6 +205,7 @@ const mapStateToProps = state => {
     return {
         ingredients : state.burgerBuilder.ingredients,
         price : state.burgerBuilder.totalPrice,
+        token: state.auth.token
     }
 }
 

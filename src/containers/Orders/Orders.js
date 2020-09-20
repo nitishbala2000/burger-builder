@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import Order from "../../components/Order/Order";
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import {connect} from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
@@ -13,7 +14,7 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-        axios.get("/orders.json")
+        axios.get("/orders.json?auth=" + this.props.token)
         .then(response => {
             const fetchedOrders = [];
             for (let key in response.data) {
@@ -45,4 +46,8 @@ class Orders extends Component {
 }
 
 
-export default withErrorHandler(Orders, axios);
+const mapStateToProps = state => {
+    return {token : state.auth.token}
+}
+
+export default connect(mapStateToProps)(withErrorHandler(Orders, axios));

@@ -5,4 +5,4 @@ export {
 } from "./burgerBuilder";
 
 
-export {auth} from "./auth";
+export {auth, logout} from "./auth";
