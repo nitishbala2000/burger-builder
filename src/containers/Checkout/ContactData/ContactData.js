@@ -112,7 +112,8 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            orderData: customerData
+            orderData: customerData,
+            userId: this.props.userId
         };
 
         // //Adds a node under "orders" in the database
@@ -205,7 +206,8 @@ const mapStateToProps = state => {
     return {
         ingredients : state.burgerBuilder.ingredients,
         price : state.burgerBuilder.totalPrice,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 
