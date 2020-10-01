@@ -36,7 +36,7 @@ class App extends Component {
       );
     }
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/burger-builder">
         <Layout>
           {routes}
         </Layout>
